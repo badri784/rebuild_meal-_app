@@ -1,18 +1,28 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:rebuild_meal_app/provider/nav_bar_provider.dart';
 import 'package:rebuild_meal_app/screens/favorite_mael.dart';
-import 'package:rebuild_meal_app/widget/category_grid_item.dart';
+import '../provider/nav_bar_provider.dart';
+import 'category_secreen.dart';
+// import 'package:rebuild_meal_app/widget/category_grid_item.dart';
 
-class TabsSecreen extends ConsumerWidget {
-  TabsSecreen({super.key});
+class TabsSecreen extends ConsumerStatefulWidget {
+  const TabsSecreen({super.key});
 
-  final List<Widget> pages = [const CategoryGridItem(), const FavoriteMael()];
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  ConsumerState<TabsSecreen> createState() => _TabsSecreenState();
+}
+
+class _TabsSecreenState extends ConsumerState<TabsSecreen> {
+  @override
+  Widget build(BuildContext context) {
     final currenindex = ref.watch(navBarPro);
+    Widget activeSecreen = const CategorySecreen();
+    if (currenindex == 1) {
+      activeSecreen = const FavoriteMael();
+    }
+
     return Scaffold(
-      body: pages[currenindex],
+      body: activeSecreen,
       bottomNavigationBar: BottomNavigationBar(
         onTap: (index) {
           ref.read(navBarPro.notifier).selectsecreen(index);

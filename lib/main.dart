@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:rebuild_meal_app/screens/tabs_secreen.dart';
+import 'package:rebuild_meal_app/screens/category_secreen.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 void main() {
@@ -18,7 +18,7 @@ class MyApp extends StatelessWidget {
           seedColor: const Color.fromARGB(255, 33, 2, 88),
         ),
       ),
-      home: TabsSecreen(),
+      home: const CategorySecreen(),
     );
   }
 }
