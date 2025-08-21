@@ -11,7 +11,12 @@ class MealsSecreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text(category.title), centerTitle: true),
+      appBar: AppBar(
+        title: Text(category.title),
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
+        backgroundColor: const Color.fromARGB(255, 36, 73, 104),
+        centerTitle: true,
+      ),
       body: SingleChildScrollView(
         child: Column(
           children: meal

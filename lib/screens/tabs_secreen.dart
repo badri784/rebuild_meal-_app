@@ -1,40 +1,55 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:rebuild_meal_app/screens/favorite_mael.dart';
-import '../provider/nav_bar_provider.dart';
-import 'category_secreen.dart';
-// import 'package:rebuild_meal_app/widget/category_grid_item.dart';
+import 'package:curved_navigation_bar/curved_navigation_bar.dart';
 
-class TabsSecreen extends ConsumerStatefulWidget {
+import 'category_secreen.dart';
+import 'favorite_mael.dart';
+
+class TabsSecreen extends StatefulWidget {
   const TabsSecreen({super.key});
 
   @override
-  ConsumerState<TabsSecreen> createState() => _TabsSecreenState();
+  State<TabsSecreen> createState() => _TabsSecreenState();
 }
 
-class _TabsSecreenState extends ConsumerState<TabsSecreen> {
+class _TabsSecreenState extends State<TabsSecreen> {
+  final PageController _pageController = PageController();
+  int _currentIndex = 0;
+
   @override
   Widget build(BuildContext context) {
-    final currenindex = ref.watch(navBarPro);
-    Widget activeSecreen = const CategorySecreen();
-    if (currenindex == 1) {
-      activeSecreen = const FavoriteMael();
-    }
-
     return Scaffold(
-      body: activeSecreen,
-      bottomNavigationBar: BottomNavigationBar(
-        onTap: (index) {
-          ref.read(navBarPro.notifier).selectsecreen(index);
+      extendBody: true,
+      body: PageView(
+        controller: _pageController,
+        onPageChanged: (index) {
+          setState(() {
+            _currentIndex = index;
+          });
         },
-        currentIndex: currenindex,
+        children: const [CategorySecreen(), FavoriteMael()],
+      ),
+      bottomNavigationBar: CurvedNavigationBar(
+        height: 50,
+        index: _currentIndex,
         items: const [
-          BottomNavigationBarItem(
-            icon: Icon(Icons.food_bank_sharp),
-            label: 'Category',
-          ),
-          BottomNavigationBarItem(icon: Icon(Icons.star), label: 'favorites'),
+          Icon(Icons.food_bank_sharp, color: Colors.black),
+          Icon(Icons.star, color: Colors.black),
         ],
+        color: Colors.white.withOpacity(0.3),
+        backgroundColor: Colors.transparent,
+
+        animationCurve: Curves.easeInOut,
+        animationDuration: const Duration(milliseconds: 400),
+        onTap: (index) {
+          setState(() {
+            _currentIndex = index;
+          });
+          _pageController.animateToPage(
+            index,
+            duration: const Duration(milliseconds: 400),
+            curve: Curves.easeInOut,
+          );
+        },
       ),
     );
   }

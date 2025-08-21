@@ -8,27 +8,30 @@ class CategorySecreen extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    // const List<Widget> pages = [FavoriteMael()];
-
     return Scaffold(
       appBar: AppBar(
-        title: const Text("Category", style: TextStyle()),
+        title: const Text(
+          "Category",
+          style: const TextStyle(fontSize: 20, color: Colors.white),
+        ),
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
+        backgroundColor: const Color.fromARGB(255, 36, 73, 104),
         centerTitle: true,
       ),
-      // body: const TabsSecreen(),
-      body: GridView(
-        gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-          crossAxisCount: 2,
-          mainAxisSpacing: 14,
-          childAspectRatio: 10 / 8,
+      body: Padding(
+        padding: const EdgeInsets.only(top: 5),
+        child: GridView(
+          gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+            crossAxisCount: 2,
+            mainAxisSpacing: 14,
+            childAspectRatio: 10 / 8,
+          ),
+          children: [
+            for (final category in availableCategories)
+              CategoryGridItem(category: category),
+          ],
         ),
-        children: [
-          for (final category in availableCategories)
-            CategoryGridItem(category: category),
-        ],
       ),
-
-      //  drawer: const DrawerWidget(),
     );
   }
 }

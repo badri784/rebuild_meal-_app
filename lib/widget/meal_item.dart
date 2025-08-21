@@ -39,95 +39,171 @@ class MealItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    bool isLandScape =
+        MediaQuery.of(context).orientation == Orientation.landscape;
+
     return InkWell(
       onTap: () {
         Navigator.of(
           context,
         ).push(MaterialPageRoute(builder: (_) => MealDetailScreen(meal: meal)));
       },
-      child: Stack(
-        children: [
-          ClipRRect(
-            borderRadius: const BorderRadius.only(
-              topLeft: Radius.circular(20),
-              topRight: Radius.circular(20),
-            ),
-            child: CachedNetworkImage(
-              imageUrl: meal.imageUrl,
-              height: 250,
-              width: double.infinity,
-
-              placeholder: (context, url) =>
-                  const Center(child: CircularProgressIndicator()),
-              errorWidget: (context, url, error) =>
-                  const Center(child: Icon(Icons.error)),
-            ),
-          ),
-
-          Positioned(
-            bottom: 0,
-            left: 0,
-            right: 0,
-            child: Container(
-              padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 12),
-              color: Colors.black26,
-              child: Column(
-                children: [
-                  Text(
-                    meal.title,
-                    maxLines: 2,
-                    softWrap: true,
-                    overflow: TextOverflow.fade,
-                    style: const TextStyle(fontSize: 22, color: Colors.white),
-                    textAlign: TextAlign.center,
+      child: isLandScape
+          ? Row(
+              children: [
+                Padding(
+                  padding: const EdgeInsets.only(top: 15, bottom: 15, left: 15),
+                  child: CachedNetworkImage(
+                    imageUrl: meal.imageUrl,
+                    height: 250,
+                    width: 450,
+                    fit: BoxFit.cover,
+                    errorWidget: (context, url, error) =>
+                        const Icon(Icons.error),
+                    placeholder: (context, url) =>
+                        const CircularProgressIndicator(),
                   ),
-                  const SizedBox(height: 8),
-                  Container(
-                    decoration: const BoxDecoration(
-                      color: Color.fromARGB(216, 5, 38, 41),
-                      borderRadius: BorderRadius.all(Radius.circular(20)),
-                    ),
-                    height: 75,
-                    child: Row(
+                ),
+                Expanded(
+                  flex: 1,
+                  child: Container(
+                    padding: const EdgeInsets.all(12),
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        const SizedBox(width: 15),
+                        Text(
+                          meal.title,
+                          style: const TextStyle(
+                            fontSize: 20,
+                            fontWeight: FontWeight.bold,
+                          ),
+                          maxLines: 2,
+                        ),
+                        const SizedBox(height: 12),
                         Row(
                           children: [
                             const Icon(Icons.access_alarm),
-                            const SizedBox(width: 5),
-                            Text('${meal.duration.toString()} min'),
+                            const SizedBox(width: 8),
+                            Text('${meal.duration} min'),
                           ],
                         ),
-                        const Spacer(),
+                        const SizedBox(height: 12),
                         Row(
                           children: [
-                            // const SizedBox(width: 55),
                             const Icon(Icons.work),
-                            const SizedBox(width: 5),
+                            const SizedBox(width: 8),
                             Text(complexityText),
                           ],
                         ),
-                        const Spacer(),
-                        Padding(
-                          padding: const EdgeInsets.only(right: 10),
-                          child: Row(
-                            children: [
-                              // const SizedBox(width: 50),
-                              const Icon(Icons.paid),
-                              const SizedBox(width: 5),
-                              Text(affordabilityText),
-                            ],
-                          ),
+                        const SizedBox(height: 12),
+                        Row(
+                          children: [
+                            const Icon(Icons.paid),
+                            const SizedBox(width: 8),
+                            Text(affordabilityText),
+                          ],
                         ),
                       ],
                     ),
                   ),
-                ],
-              ),
+                ),
+              ],
+            )
+          : Stack(
+              children: [
+                ClipRRect(
+                  borderRadius: const BorderRadius.vertical(
+                    top: Radius.circular(20),
+                  ),
+                  child: Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: CachedNetworkImage(
+                      imageUrl: meal.imageUrl,
+                      height: 250,
+                      width: 423.4,
+                      fit: BoxFit.cover,
+
+                      placeholder: (context, url) =>
+                          const Center(child: CircularProgressIndicator()),
+                      errorWidget: (context, url, error) =>
+                          const Center(child: Icon(Icons.error)),
+                    ),
+                  ),
+                ),
+
+                Positioned(
+                  bottom: 0,
+                  left: 0,
+                  right: 0,
+                  child: Container(
+                    padding: const EdgeInsets.symmetric(
+                      vertical: 10,
+                      horizontal: 12,
+                    ),
+                    color: Colors.black26,
+                    child: Column(
+                      children: [
+                        Text(
+                          meal.title,
+                          maxLines: 2,
+                          softWrap: true,
+                          overflow: TextOverflow.fade,
+                          style: const TextStyle(
+                            fontSize: 22,
+                            color: Colors.white,
+                          ),
+                          textAlign: TextAlign.center,
+                        ),
+                        const SizedBox(height: 8),
+
+                        Row(
+                          children: [
+                            const SizedBox(width: 15),
+                            Row(
+                              children: [
+                                const Icon(Icons.access_alarm),
+                                const SizedBox(width: 5),
+                                Text(
+                                  '${meal.duration.toString()} min',
+                                  style: const TextStyle(color: Colors.white),
+                                ),
+                              ],
+                            ),
+                            const Spacer(),
+                            Row(
+                              children: [
+                                const Icon(Icons.work),
+                                const SizedBox(width: 5),
+                                Text(
+                                  complexityText,
+                                  style: const TextStyle(color: Colors.white),
+                                ),
+                              ],
+                            ),
+
+                            const Spacer(),
+                            Padding(
+                              padding: const EdgeInsets.only(right: 10),
+                              child: Row(
+                                children: [
+                                  const Icon(Icons.paid),
+                                  const SizedBox(width: 5),
+                                  Text(
+                                    affordabilityText,
+                                    style: const TextStyle(color: Colors.white),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ],
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+              ],
             ),
-          ),
-        ],
-      ),
     );
   }
 }
